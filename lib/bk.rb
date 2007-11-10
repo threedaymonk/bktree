@@ -20,10 +20,6 @@ module BK
       @distancer = distancer
     end
     
-    def has_child?(score)
-      !!children[score]
-    end
-    
     def add(term)
       score = distance(term)
       if child = children[score]
@@ -36,14 +32,14 @@ module BK
     def query(term, threshold, collected)
       distance_at_node = distance(term)
       collected << self.term if distance_at_node <= threshold
-      ((threshold-distance_at_node)..(threshold+distance_at_node)).each do |score|
+      ((distance_at_node-threshold)..(threshold+distance_at_node)).each do |score|
         child = children[score]
         child.query(term, threshold, collected) if child
       end
     end
     
     def distance(term)
-      @distancer.distance(self.term, term)
+      @distancer.distance(term, self.term)
     end
   end
   
