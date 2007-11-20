@@ -31,7 +31,7 @@ module BK
     
     def query(term, threshold, collected)
       distance_at_node = distance(term)
-      collected << self.term if distance_at_node <= threshold
+      collected[self.term] = distance_at_node if distance_at_node <= threshold
       ((distance_at_node-threshold)..(threshold+distance_at_node)).each do |score|
         child = children[score]
         child.query(term, threshold, collected) if child
@@ -58,7 +58,7 @@ module BK
     end
   
     def query(term, threshold)
-      collected = []
+      collected = {}
       @root.query(term, threshold, collected)
       return collected
     end

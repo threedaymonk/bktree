@@ -15,7 +15,11 @@ class BKTreeQueryAccuracyTest < Test::Unit::TestCase
 
     search_term = 'sapient'
     threshold = 1
-    expected = terms.select{ |t| Text::Levenshtein.distance(t, search_term) <= threshold }
+    expected = terms.inject({}){ |acc, t| 
+      d = Text::Levenshtein.distance(t, search_term)
+      acc[t] = d if d <= threshold 
+      acc
+    }
     assert expected.any?
     assert_equal expected, tree.query(search_term, threshold)
   end

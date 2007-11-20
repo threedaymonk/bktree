@@ -45,7 +45,11 @@ tree = time('Building tree'){
 }
 
 expected = time('Linear scan to find expected terms'){
-  terms.select{ |t| Text::Levenshtein.distance(t, search_term) <= threshold }
+  terms.inject({}){ |acc, t| 
+    d = Text::Levenshtein.distance(t, search_term)
+    acc[t] = d if d <= threshold 
+    acc
+  }
 }
 
 distancer.start_counting
@@ -54,6 +58,6 @@ actual = time('Query tree'){
   tree.query(search_term, threshold)
 }
 
-raise 'Results of linear and tree scan differ' unless expected.sort == actual.sort
+raise 'Results of linear and tree scan differ' unless expected == actual
 
 puts '%0.1f%% of tree was queried' % [(distancer.count * 100.0) / terms.length]
