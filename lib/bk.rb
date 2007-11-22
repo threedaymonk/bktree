@@ -1,4 +1,5 @@
 require 'text/levenshtein'
+require 'yaml'
 
 module BK
   # Paul Battley 2007
@@ -61,6 +62,14 @@ module BK
       collected = {}
       @root.query(term, threshold, collected)
       return collected
+    end
+    
+    def export
+      YAML.dump(self)
+    end
+    
+    def self.import(exported)
+      YAML.load(exported)
     end
   end
 end
