@@ -36,7 +36,7 @@ to `call(a, b)` with a number:
 
     tree = BK::Tree.new(custom_algorithm)
 
-Note that the result of `distance(a, b)` *must* satisfy the
+Note that the result *must* satisfy the
 _triangle inequality_, i.e. _d(x,z) ≤ d(x,y) + d(y,z)_.
 
 The precomputed tree can be exported to and reimported later from an IO-like object:
@@ -51,7 +51,7 @@ The precomputed tree can be exported to and reimported later from an IO-like obj
 
 ## Dependencies
 
-* [text](http://rubygems.org/gems/text)
+* [text](http://rubygems.org/gems/text) version 0.2.0 or newer.
 
 ## Performance
 
