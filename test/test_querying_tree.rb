@@ -35,7 +35,7 @@ class BKTreeSearchSpaceTest < Test::Unit::TestCase
       @counting = false
     end
 
-    def distance(a, b)
+    def call(a, b)
       @history << [a, b] if @recording
       super
     end

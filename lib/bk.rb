@@ -7,7 +7,7 @@ module BK
   # and http://www.dcc.uchile.cl/~gnavarro/ps/spire98.2.ps.gz
 
   class LevenshteinDistancer
-    def distance(a, b)
+    def call(a, b)
       Text::Levenshtein.distance(a, b)
     end
   end
@@ -40,7 +40,7 @@ module BK
     end
 
     def distance(term)
-      @distancer.distance(term, self.term)
+      @distancer.call(term, self.term)
     end
   end
 
