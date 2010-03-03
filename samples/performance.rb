@@ -3,22 +3,22 @@ require 'bk'
 
 class CountingLevenshteinDistancer < BK::LevenshteinDistancer
   attr_reader :count
-  
+
   def initialize
     @count = 0
     @counting = false
   end
-  
+
   def distance(a, b)
     @count += 1 if @counting
     super
   end
-  
+
   def start_counting
     @counting = true
   end
 end
-  
+
 def time(message)
   t0 = Time.now
   print "#{message} ... "
@@ -35,7 +35,7 @@ distancer = CountingLevenshteinDistancer.new
 terms = time('Loading 10 K words from dictionary'){
   File.read('/usr/share/dict/words').scan(/\w+/)[0, 10000]
 }
-    
+
 tree = time('Building tree'){
   tree = BK::Tree.new(distancer)
   terms.each do |term|
@@ -45,9 +45,9 @@ tree = time('Building tree'){
 }
 
 expected = time('Linear scan to find expected terms'){
-  terms.inject({}){ |acc, t| 
+  terms.inject({}){ |acc, t|
     d = Text::Levenshtein.distance(t, search_term)
-    acc[t] = d if d <= threshold 
+    acc[t] = d if d <= threshold
     acc
   }
 }

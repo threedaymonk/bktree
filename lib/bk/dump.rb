@@ -10,11 +10,11 @@ module BK
       end
     end
   end
-  
+
   class Node
     include Dumpable
   end
-  
+
   class Tree
     def dump
       @root ? @root.dump : []
