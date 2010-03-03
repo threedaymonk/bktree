@@ -1,6 +1,7 @@
 $:.unshift( File.join( File.dirname(__FILE__), '..', 'lib' ))
 require 'test/unit'
 require 'bk'
+require 'stringio'
 
 class BKTreeImportAndExportTest < Test::Unit::TestCase
   def test_should_give_correct_results_after_exporting_and_reimporting
@@ -12,9 +13,12 @@ class BKTreeImportAndExportTest < Test::Unit::TestCase
     terms.each do |term|
       tree.add(term)
     end
-    exported = tree.export
 
-    tree = BK::Tree.import(exported)
+    stream = StringIO.new
+    tree.export(stream)
+
+    stream.rewind
+    tree = BK::Tree.import(stream)
 
     search_term = 'sapient'
     threshold = 1

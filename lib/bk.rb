@@ -64,12 +64,12 @@ module BK
       return collected
     end
 
-    def export
-      YAML.dump(self)
+    def export(stream)
+      stream.write(YAML.dump(self))
     end
 
-    def self.import(exported)
-      YAML.load(exported)
+    def self.import(stream)
+      YAML.load(stream.read)
     end
   end
 end
