@@ -9,7 +9,7 @@ class CountingLevenshteinDistancer < BK::LevenshteinDistancer
     @counting = false
   end
 
-  def distance(a, b)
+  def call(a, b)
     @count += 1 if @counting
     super
   end
