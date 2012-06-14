@@ -1,9 +1,16 @@
 # BK-Tree implementation in Ruby
 
-If you don’t know what a BK-tree is, these links should provide a good explanation and introduction.
+BK-trees can be used to efficiently locate strings' best matches from within a large set. If you don’t know what a BK-tree is, these links should provide a good explanation and introduction.
 
 * [Damn Cool Algorithms, Part 1: BK-Trees](http://blog.notdot.net/2007/4/Damn-Cool-Algorithms-Part-1-BK-Trees)
 * [Fast Approximate String Matching in a Dictionary](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.21.3317)
+
+
+## Installation
+
+BK is available as a ruby gem:
+
+    gem install bk
 
 ## Usage
 
@@ -75,3 +82,15 @@ As the threshold increases, the benefit is reduced. At threshold 3:
 
 * Memory usage: around 6 MB for a 20,000-word tree.
 * Maximum tree depth is limited by the stack.
+
+## Testing
+
+    rake test
+
+...or, for specific tests:
+
+    ruby test/test_building_tree.rb
+
+## License
+
+(TO DO)
