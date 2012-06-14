@@ -1,3 +1,3 @@
-Dir[ File.join( File.dirname(__FILE__), '*.rb' )].each do |f|
-  require f
+Dir.glob("test/test_*.rb").each do |file|
+  require "./#{file}"
 end
