@@ -10,46 +10,57 @@ good explanation and introduction.
 
 ## Installation
 
-BK is available as a ruby gem:
+BK is available as a Ruby gem:
 
     gem install bk
 
 ## Usage
 
+    ```ruby
     require "bk"
     tree = BK::Tree.new # Use the default Levenshtein distance algorithm
+    ```
 
 Add items to the tree:
 
+    ```ruby
     tree.add "cat"
     tree.add "dog"
     tree.add "monkey"
     tree.add "donkey"
+    ```
 
 Find all items within distance 1 of ‘munkey’:
 
+    ```ruby
     tree.query("munkey", 1)
     # => {"monkey"=>1} 
+    ```
 
 Find all items within distance 2 of ‘munkey’:
 
+    ```ruby
     tree.query("munkey", 2)
     # => {"donkey"=>2, "monkey"=>1}
+    ```
 
 You can specify a custom distance algorithm by passing an object that responds
 to `call(a, b)` with a number:
 
+    ```ruby
     custom_algorithm = lambda{ |a, b|
       Text::Levenshtein.distance(a, b)
     }
 
     tree = BK::Tree.new(custom_algorithm)
+    ```
 
 Note that the result *must* satisfy the
 _triangle inequality_, i.e. _d(x,z) ≤ d(x,y) + d(y,z)_.
 
 The precomputed tree can be exported to and reimported later from an IO-like object:
 
+    ```ruby
     File.open("tree", "wb") do |f|
       tree.export(f)
     end
@@ -57,6 +68,7 @@ The precomputed tree can be exported to and reimported later from an IO-like obj
     File.open("tree", "rb") do |f|
       tree = BK::Tree.import(f)
     end
+    ```
 
 ## Performance
 
