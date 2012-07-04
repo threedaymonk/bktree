@@ -17,6 +17,5 @@ Gem::Specification.new do |s|
   s.description       = "Burkhard Keller Tree implementation in Ruby"
 
   s.add_dependency("text")
-  s.add_development_dependency("test-unit")
   s.add_development_dependency("rake")
 end
