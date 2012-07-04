@@ -1,6 +1,8 @@
 # BK-Tree implementation in Ruby
 
-BK-trees can be used to efficiently locate strings' best matches from within a large set. If you don’t know what a BK-tree is, these links should provide a good explanation and introduction.
+BK-trees can be used to efficiently locate strings' best matches from within a
+large set. If you don’t know what a BK-tree is, these links should provide a
+good explanation and introduction.
 
 * [Damn Cool Algorithms, Part 1: BK-Trees](http://blog.notdot.net/2007/4/Damn-Cool-Algorithms-Part-1-BK-Trees)
 * [Fast Approximate String Matching in a Dictionary](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.21.3317)
@@ -56,10 +58,6 @@ The precomputed tree can be exported to and reimported later from an IO-like obj
       tree = BK::Tree.import(f)
     end
 
-## Dependencies
-
-* [text](http://rubygems.org/gems/text) version 0.2.0 or newer.
-
 ## Performance
 
 Results of looking for words within distance 1 of ‘alien’ in a 20,000-word dictionary:
@@ -91,6 +89,6 @@ As the threshold increases, the benefit is reduced. At threshold 3:
 
     ruby test/test_building_tree.rb
 
-## License
+## Licensing
 
-(TO DO)
+MIT (see COPYING.txt)
