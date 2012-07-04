@@ -32,6 +32,7 @@ class BKTreeSearchSpaceTest < Test::Unit::TestCase
     def initialize
       @history = []
       @counting = false
+      @recording = false
     end
 
     def call(a, b)
