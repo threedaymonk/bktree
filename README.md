@@ -52,6 +52,10 @@ custom_algorithm = lambda{ |a, b|
   Text::Levenshtein.distance(a, b)
 }
 
+# or, more tersely:
+
+custom_algorithm = Text::Levenshtein.public_method(:distance)
+
 tree = BK::Tree.new(custom_algorithm)
 ```
 
