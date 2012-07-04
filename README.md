@@ -103,7 +103,7 @@ As the threshold increases, the benefit is reduced. At threshold 3:
 
 ...or, for specific tests:
 
-    ruby test/test_building_tree.rb
+    ruby -Itest test/test_building_tree.rb
 
 ## Licensing
 
