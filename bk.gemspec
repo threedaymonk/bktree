@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("lib/**/*") + Dir.glob("samples/**/*")
   s.test_files        = Dir.glob("test/**/*")
   s.description       = "Burkhard Keller Tree implementation in Ruby"
-  
+
   s.add_dependency("text")
   s.add_development_dependency("test-unit")
+  s.add_development_dependency("rake")
 end
