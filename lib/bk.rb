@@ -24,7 +24,7 @@ module BK
     def add(term)
       score = distance(term)
       if child = children[score]
-        child.add(term)
+        child.add term
       else
         children[score] = Node.new(term, @distancer)
       end
@@ -33,14 +33,14 @@ module BK
     def query(term, threshold, collected)
       distance_at_node = distance(term)
       collected[self.term] = distance_at_node if distance_at_node <= threshold
-      ((distance_at_node-threshold)..(threshold+distance_at_node)).each do |score|
-        child = children[score]
-        child.query(term, threshold, collected) if child
+      (-threshold..threshold).each do |d|
+        child = children[distance_at_node + d] or next
+        child.query term, threshold, collected
       end
     end
 
     def distance(term)
-      @distancer.call(term, self.term)
+      @distancer.call term, self.term
     end
   end
 
@@ -52,7 +52,7 @@ module BK
 
     def add(term)
       if @root
-        @root.add(term)
+        @root.add term
       else
         @root = Node.new(term, @distancer)
       end
@@ -60,12 +60,12 @@ module BK
 
     def query(term, threshold)
       collected = {}
-      @root.query(term, threshold, collected)
+      @root.query term, threshold, collected
       return collected
     end
 
     def export(stream)
-      stream.write(YAML.dump(self))
+      stream.write YAML.dump(self)
     end
 
     def self.import(stream)
