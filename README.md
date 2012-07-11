@@ -52,15 +52,15 @@ custom_algorithm = lambda{ |a, b|
   Text::Levenshtein.distance(a, b)
 }
 
-# or, more tersely:
-
-custom_algorithm = Text::Levenshtein.public_method(:distance)
-
 tree = BK::Tree.new(custom_algorithm)
 ```
 
-Note that the result *must* satisfy the
-_triangle inequality_, i.e. _d(x,z) ≤ d(x,y) + d(y,z)_.
+Note that:
+
+# the result of `call` *must* satisfy the _triangle inequality_,
+  i.e. _d(x,z) ≤ d(x,y) + d(y,z)_; and
+# whilst a `lambda` can be used as the distancer, for exporting and importing
+  (described below) to work, a named class must be used.
 
 The precomputed tree can be exported to and reimported later from an IO-like object:
 
