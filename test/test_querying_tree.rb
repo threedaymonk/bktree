@@ -82,3 +82,24 @@ class BKTreeSearchSpaceTest < Test::Unit::TestCase
     assert_equal expected, distancer.history
   end
 end
+
+class BKTreeSearchDuplicateTest < Test::Unit::TestCase
+
+  RandomStruct = Struct.new(:string, :random)
+
+  class RandomStructLevenshteinDistancer
+    def call(a, b)
+      Text::Levenshtein.distance(a.string, b.string)
+    end
+  end
+
+  def test_should_handle_many_duplicates
+    tree = BK::Tree.new(RandomStructLevenshteinDistancer.new)
+
+    10000.times do
+      tree.add(RandomStruct.new('dupe', rand))
+    end
+
+    assert_equal 10000, tree.query(RandomStruct.new('dupe', rand), 0).length
+  end
+end

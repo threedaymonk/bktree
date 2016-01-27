@@ -62,4 +62,14 @@ class BKTreeBuildingWhiteBoxTest < Test::Unit::TestCase
       tree.dump
     )
   end
+
+  def test_should_add_duplicate_terms
+    %w[ book book book book book ].each do |word|
+      tree.add(word)
+    end
+    assert_equal(
+      [ 'book', [ 'book', 'book', 'book', 'book' ]],
+      tree.dump
+    )
+  end
 end
