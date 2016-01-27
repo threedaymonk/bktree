@@ -13,18 +13,21 @@ module BK
   end
 
   class Node
-    attr_reader :term, :children
+    attr_reader :term, :equal_terms, :children
 
     def initialize(term, distancer)
       @term = term
+      @equal_terms = []
       @children = {}
       @distancer = distancer
     end
 
     def add(term)
       score = distance(term)
-      if child = children[score]
-        child.add term
+      if score == 0
+        @equal_terms << term
+      elsif child = children[score]
+        child.add(term)
       else
         children[score] = Node.new(term, @distancer)
       end
@@ -32,15 +35,24 @@ module BK
 
     def query(term, threshold, collected)
       distance_at_node = distance(term)
-      collected[self.term] = distance_at_node if distance_at_node <= threshold
-      (-threshold..threshold).each do |d|
-        child = children[distance_at_node + d] or next
-        child.query term, threshold, collected
+      if distance_at_node <= threshold
+        collected[self.term] = distance_at_node
+        @equal_terms.each do |t|
+          collected[t] = distance_at_node
+        end
+      end
+      ((distance_at_node-threshold)..(threshold+distance_at_node)).each do |score|
+        child = children[score]
+        child.query(term, threshold, collected) if child
       end
     end
 
     def distance(term)
       @distancer.call term, self.term
+    end
+
+    def depth
+      1 + (children.map { |_, c| c.depth }.max || 0)
     end
   end
 
@@ -55,6 +67,14 @@ module BK
         @root.add term
       else
         @root = Node.new(term, @distancer)
+      end
+    end
+
+    def depth
+      if @root
+        @root.depth
+      else
+        0
       end
     end
 
