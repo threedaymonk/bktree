@@ -12,38 +12,6 @@ module BK
     end
   end
 
-  class Node
-    attr_reader :term, :children
-
-    def initialize(term, distancer)
-      @term = term
-      @children = {}
-      @distancer = distancer
-    end
-
-    def add(term)
-      score = distance(term)
-      if child = children[score]
-        child.add term
-      else
-        children[score] = Node.new(term, @distancer)
-      end
-    end
-
-    def query(term, threshold, collected)
-      distance_at_node = distance(term)
-      collected[self.term] = distance_at_node if distance_at_node <= threshold
-      (-threshold..threshold).each do |d|
-        child = children[distance_at_node + d] or next
-        child.query term, threshold, collected
-      end
-    end
-
-    def distance(term)
-      @distancer.call term, self.term
-    end
-  end
-
   class Tree
     def initialize(distancer = LevenshteinDistancer.new)
       @root = nil
@@ -52,15 +20,15 @@ module BK
 
     def add(term)
       if @root
-        @root.add term
+        add_ @root, term
       else
-        @root = Node.new(term, @distancer)
+        @root = [term]
       end
     end
 
     def query(term, threshold)
       collected = {}
-      @root.query term, threshold, collected
+      query_ @root, term, threshold, collected
       return collected
     end
 
@@ -70,6 +38,35 @@ module BK
 
     def self.import(stream)
       YAML.load(stream.read)
+    end
+
+  private
+
+    def add_(node, term)
+      node << {} if node.length == 1
+      node_term, children = node
+      score = distance(node_term, term)
+      if child = children[score]
+        add_ child, term
+      else
+        children[score] = [term]
+      end
+    end
+
+    def query_(node, term, threshold, collected)
+      node_term, children = node
+      distance_at_node = distance(term, node_term)
+      collected[node_term] = distance_at_node if distance_at_node <= threshold
+      return unless children
+      (-threshold..threshold).each do |d|
+        child = children[distance_at_node + d]
+        next unless child
+        query_ child, term, threshold, collected
+      end
+    end
+
+    def distance(a, b)
+      @distancer.call a, b
     end
   end
 end
