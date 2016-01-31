@@ -7,9 +7,12 @@ module BK
     def add(node, term)
       node << {} if node.length == 1
       node_term, children = node
-      score = distance(node_term, term)
-      if child = children[score]
-        add child, term
+
+      score = distance(term, node_term)
+      child_with_same_score = children[score]
+
+      if child_with_same_score
+        add child_with_same_score, term
       else
         children[score] = [term]
       end

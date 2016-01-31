@@ -8,12 +8,14 @@ module BK
       node_term, children = node
       distance_at_node = distance(term, node_term)
       collected[node_term] = distance_at_node if distance_at_node <= threshold
-      return collected unless children
-      (-threshold..threshold).each do |d|
-        child = children[distance_at_node + d]
-        next unless child
-        query child, term, threshold, collected
+
+      if children
+        (-threshold..threshold).each do |d|
+          child = children[distance_at_node + d]
+          query child, term, threshold, collected if child
+        end
       end
+
       collected
     end
 
